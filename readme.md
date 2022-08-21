@@ -326,7 +326,7 @@ This endpoint add item to user's cart.
     "create order successfully"
 
 
-## User edit cart items 
+## User edit order address 
 
 This endpoint address od an order (only address other too complex).
 
@@ -349,7 +349,7 @@ This endpoint address od an order (only address other too complex).
 ### Sample Return
     "update order successfully"
 
-## User delete cart items 
+## User cancel order
 
 This endpoint delete item in user's cart.
 
