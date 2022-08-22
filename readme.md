@@ -12,7 +12,8 @@ This endpoint register new user.
 |--|--|--|
 | name |String|-|
 | email|String |-|
-| name |String |-|
+| pasword |String |-|
+| phone |String |-|
 
 ### Sample Return
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwiaWF0IjoxNjYwNjQ1NDg2LCJleHAiOjE2NjEyNTAyODZ9.GR_ZSfjEckFiVlON-cThiYBVID4q1fOYSyIWx8jyIMg"
