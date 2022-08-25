@@ -1,13 +1,35 @@
 import React, { Component } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createStackNavigator } from '@react-navigation/stack';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import CartScreen from "./screens/CartScreen";
 import HomeScreen from "./screens/HomeScreen";
 import OrderScreen from "./screens/OrderScreen";
 import Account from "./screens/Profile/Account";
+import ProductDetailScreen from "./screens/ProductDetailScreen";
+
 
 const Tab = createBottomTabNavigator();
+const HomeStack = createStackNavigator();
+
+class HomeStackScreens extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+
+    }
+  }
+
+  render () {
+    return(
+      <HomeStack.Navigator>
+        <HomeStack.Screen name="HOME" component={HomeScreen} options={{ headerShown: false }}/>
+        <HomeStack.Screen name="ProductDetail" component={ProductDetailScreen} options={{ headerShown: false }}/>
+      </HomeStack.Navigator>
+    )
+  }
+}
 
 export default class App extends Component {
   constructor(props) {
@@ -30,7 +52,7 @@ export default class App extends Component {
           >
             <Tab.Screen
               name="home"
-              component={HomeScreen}
+              component={HomeStackScreens}
               options={{
                 title: "Home",
                 tabBarIcon: () => {
