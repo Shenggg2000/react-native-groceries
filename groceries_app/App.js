@@ -48,6 +48,7 @@ export default class App extends Component {
               tabBarLabelStyle: {
                 fontSize: 16,
               },
+              unmountOnBlur: true,
             }}
           >
             <Tab.Screen

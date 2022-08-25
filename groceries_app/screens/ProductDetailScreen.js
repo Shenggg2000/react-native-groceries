@@ -11,6 +11,10 @@ export default class ProductDetailScreen extends Component {
       itemIndex: -1,
     };
   }
+  
+  componentDidMount() {
+    this.setState({productItem: this.props.route.params.params.item})
+  }
 
   render() {
     const {navigation} = this.props;
@@ -38,7 +42,9 @@ export default class ProductDetailScreen extends Component {
               <View style={styles.addToCart}>
                   <TouchableOpacity
                     activeOpacity={1}
-                    onPress={this.props.onPress}>
+                    onPress={()=>{
+                      this.props.route.params._addToCart(productItem.name, productItem.desc)
+                    }}>
                     <Text style={styles.addToCartText}>Add To Cart</Text>
                   </TouchableOpacity>
                 </View>

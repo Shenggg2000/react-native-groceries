@@ -2,24 +2,42 @@ const db = require('./db');
 const helper = require('../helper');
 const config = require('../config');
 
-async function get(user){
+async function get(user) {
   const rows = await db.query(
     `SELECT * 
     FROM cart_items
     LEFT JOIN products ON cart_items.product_id = products.id WHERE cart_items.user_id = ${user.id}`
   );
+  console.log(user.id);
   const data = helper.emptyOrRows(rows);
 
   return data;
 }
 
-async function add(user, input){
-  const result = await db.query(
-    `INSERT INTO cart_items 
-    (user_id, product_id, quantity) 
-    VALUES 
-    (${user.id}, ${input.product_id}, ${input.quantity})`
+async function add(user, input) {
+  const rows = await db.query(
+    `SELECT * 
+    FROM cart_items
+    WHERE user_id = ${user.id} AND product_id = ${input.product_id}`
   );
+
+  const data = helper.emptyOrRows(rows);
+
+  let result;
+  if (data.length > 0) {
+    result = await db.query(
+      `UPDATE cart_items 
+      SET quantity=${data[0].quantity + 1}
+      WHERE user_id=${user.id} AND product_id=${input.product_id}`
+    );
+  } else {
+    result = await db.query(
+      `INSERT INTO cart_items 
+      (user_id, product_id, quantity) 
+      VALUES 
+      (${user.id}, ${input.product_id}, ${input.quantity})`
+    );
+  }
 
   let message = 'Error in add product to cart';
 
@@ -27,10 +45,10 @@ async function add(user, input){
     message = 'add product to cart successfully';
   }
 
-  return {message};
+  return { message };
 }
 
-async function edit(user, input){
+async function edit(user, input) {
   const result = await db.query(
     `UPDATE cart_items 
     SET quantity=${input.quantity}
@@ -42,10 +60,10 @@ async function edit(user, input){
     message = 'updated product quantity in cart successfully';
   }
 
-  return {message};
+  return { message };
 }
 
-async function remove(user, input){
+async function remove(user, input) {
   const result = await db.query(
     `DELETE FROM cart_items 
     WHERE user_id=${user.id} AND product_id=${input.product_id}`
@@ -57,7 +75,7 @@ async function remove(user, input){
     message = 'delete product in cart successfully';
   }
 
-  return {message};
+  return { message };
 }
 
 module.exports = {

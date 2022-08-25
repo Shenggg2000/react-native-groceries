@@ -6,11 +6,11 @@ import {
   TextInput,
   TouchableNativeFeedback,
   StyleSheet,
-  ScrollView,
+  TouchableOpacity,
   Image
 } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
-import {Color, Fonts} from '../ui/theme';
+import { Color, Fonts } from '../ui/theme';
 
 /**
  * InputWithLabel
@@ -154,12 +154,8 @@ class ProductItem extends Component {
     };
   }
 
-  // onItemClicked = item => {
-  //   this.props.navi;
-  // };
-
   render() {
-    const {item} = this.props;
+    const { item } = this.props;
     return (
       <View style={styles.container}>
         <View style={styles.box1}>
@@ -177,12 +173,14 @@ class ProductItem extends Component {
               </Text>
             </TouchableOpacity>
           </View>
-            <View style={styles.addToCart}>
-              <TouchableOpacity
-                activeOpacity={1} onPress={this.props.onPress}>
-                <Text style={styles.addToCartText}>Add To Cart</Text>
-              </TouchableOpacity>
-            </View>
+          <View style={styles.addToCart}>
+            <TouchableOpacity
+              activeOpacity={1} onPress={() => {
+                this.props._addToCart(item.id, item.name)
+              }}>
+              <Text style={styles.addToCartText}>Add To Cart</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
     );
@@ -247,7 +245,7 @@ const styles = StyleSheet.create({
   productImage: {
     height: 100,
     width: 100,
-    resizeMode:'cover'
+    resizeMode: 'cover'
   },
   addToCart: {
     backgroundColor: Color.colorPrimary,
