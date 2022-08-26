@@ -1,7 +1,7 @@
 # File Structure
 
-**react-node-app/server** > backend (Express.js)\
-**react-node-app/client** > frontend (React)  
+**groceries_api** > backend (Express.js)\
+**groceries_app** > frontend (React)  
 
 # Installation
 
