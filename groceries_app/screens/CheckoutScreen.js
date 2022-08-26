@@ -106,7 +106,7 @@ export default class CheckoutScreen extends Component {
         <View style={{ marginBottom: 0 }}>
           <Text style={{ fontSize: 20, marginTop: 10, marginLeft: 20, fontWeight: "bold", color: "#333" }}>Checkout Summary </Text>
           <View style={{ padding: 20, paddingBottom: 0 }}>
-            <Text style={{ fontSize: 18, marginBottom: 10 }}>Delivery Address: </Text>
+            <Text style={{ fontSize: 18, marginBottom: 10 }}>Payment Method: </Text>
             <Picker
               style={{ borderColor: "#333", borderWidth: 1, padding: 10, borderRadius: 40 }}
               mode={'dropdown'}                     // 'dialog' is default, try 'dropdown'
