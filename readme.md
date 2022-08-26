@@ -1,7 +1,7 @@
 # File Structure
 
 **groceries_api** > backend (Express.js)\
-**groceries_app** > frontend (React)  
+**groceries_app** > frontend (React Native)  
 
 # Installation
 
