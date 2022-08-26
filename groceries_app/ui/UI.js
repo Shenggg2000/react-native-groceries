@@ -151,11 +151,12 @@ class ProductItem extends Component {
     super(props);
     this.state = {
       item: this.props.item,
+      isLogin: this.props.isLogin,
     };
   }
 
   render() {
-    const { item } = this.props;
+    const { item, isLogin } = this.props;
     return (
       <View style={styles.container}>
         <View style={styles.box1}>
@@ -176,7 +177,7 @@ class ProductItem extends Component {
           <View style={styles.addToCart}>
             <TouchableOpacity
               activeOpacity={1} onPress={() => {
-                this.props._addToCart(item.id, item.name)
+                this.props._addToCart(item.id, item.name, isLogin)
               }}>
               <Text style={styles.addToCartText}>Add To Cart</Text>
             </TouchableOpacity>
@@ -190,7 +191,7 @@ class ProductItem extends Component {
 const styles = StyleSheet.create({
   container: {
     height: 220,
-    width: 220,
+    width: 350,
     backgroundColor: Color.white,
     shadowColor: '#000',
     shadowOffset: {

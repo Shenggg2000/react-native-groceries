@@ -25,7 +25,7 @@ class HomeStackScreens extends Component {
     return(
       <HomeStack.Navigator>
         <HomeStack.Screen name="HOME" component={HomeScreen} options={{ headerShown: false }}/>
-        <HomeStack.Screen name="ProductDetail" component={ProductDetailScreen} options={{ headerShown: false }}/>
+        <HomeStack.Screen name="ProductDetail" component={ProductDetailScreen}/>
       </HomeStack.Navigator>
     )
   }
