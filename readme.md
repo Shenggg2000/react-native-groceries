@@ -6,7 +6,7 @@
 # Installation
 
 1. Start your wampserver
-2. import **wireless_application_development.sql** into database named **wireless_application_development**
+2. import **wireless_application_development.sql** into database named **wireless_application_development** <br />
     2.1. you can setup your database configuration in **groceries_api/config.js** 
 3. In **groceries_api** folder,  install all packages required by Express.js with `npm i`
 4. In **groceries_api** folder,  start api with `node index.js`
