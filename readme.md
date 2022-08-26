@@ -31,7 +31,7 @@ This endpoint login user.
 |Parameter|Data Type|Description|
 |--|--|--|
 | email|String |-|
-| name |String |-|
+| password |String |-|
 
 ### Sample Return
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NSwiaWF0IjoxNjYwNjQ1NDg2LCJleHAiOjE2NjEyNTAyODZ9.GR_ZSfjEckFiVlON-cThiYBVID4q1fOYSyIWx8jyIMg"
