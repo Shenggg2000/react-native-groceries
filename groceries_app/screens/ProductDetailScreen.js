@@ -8,17 +8,23 @@ export default class ProductDetailScreen extends Component {
     super(props);
     this.state = {
       productItem: null,
-      itemIndex: -1,
+      isLogin: false
     };
   }
   
   componentDidMount() {
-    this.setState({productItem: this.props.route.params.params.item})
+    this.setState({
+      productItem: this.props.route.params.params.item,
+      isLogin: this.props.route.params.params.isLogin
+    })
+  }
+
+  componentDidUpdate() {
+    this.props.navigation.setOptions({headerTitle: this.state.productItem.name});
   }
 
   render() {
-    const {navigation} = this.props;
-    const {productItem} = this.state;
+    const {productItem, isLogin} = this.state;
     return (
       <View style={styles.mainContainer}>
         {productItem !== undefined && productItem !== null ? (
@@ -43,7 +49,7 @@ export default class ProductDetailScreen extends Component {
                   <TouchableOpacity
                     activeOpacity={1}
                     onPress={()=>{
-                      this.props.route.params._addToCart(productItem.name, productItem.desc)
+                      this.props.route.params._addToCart(productItem.id, productItem.name, isLogin)
                     }}>
                     <Text style={styles.addToCartText}>Add To Cart</Text>
                   </TouchableOpacity>
