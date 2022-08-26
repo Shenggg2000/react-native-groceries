@@ -178,83 +178,101 @@ export default class CartScreen extends Component {
     return (
       <>
         {
-          this.state.cartItems.length === 0 ?
-            <View style={{ flex: 1, justifyContent: "center" }}>
-              <Text style={{ fontSize: 18, textAlign: "center" }}>Empty Cart</Text>
-              <View style={{ padding: 20 }}>
-                <AppButton title={'Go Shopping'}
-                  onPress={() =>
-                    this.props.navigation.navigate('home', {
-                      screen: "HOME",
-                    })
-                  }></AppButton>
+          this.state.isLogin ?
+            this.state.cartItems.length === 0 ?
+              <View style={{ flex: 1, justifyContent: "center" }}>
+                <Text style={{ fontSize: 18, textAlign: "center" }}>Empty Cart</Text>
+                <View style={{ padding: 20 }}>
+                  <AppButton title={'Go Shopping'}
+                    onPress={() =>
+                      this.props.navigation.navigate('home', {
+                        screen: "HOME",
+                      })
+                    }></AppButton>
+                </View>
               </View>
-            </View>
+              :
+              <>
+                <FlatList
+                  refreshing={this.state.isFetching}
+                  onRefresh={this._load}
+                  data={this.state.cartItems}
+                  renderItem={({ item }) => {
+                    return (
+                      <TouchableNativeFeedback
+                      >
+                        <View style={{ flexDirection: "row", borderBottomWidth: 1, borderBottomColor: '#ccc', padding: 20 }}>
+                          <View style={{ flex: 3 }}>
+                            <Image
+                              style={{ width: 100, height: 100, backgroundColor: "#333", borderRadius: 10, resizeMode: 'contain' }}
+                              source={{ uri: `${item.img}` }} />
+                          </View>
+                          <View style={{ flex: 7, justifyContent: "center", marginLeft: 20 }}>
+                            <Text style={{ fontSize: 20, fontWeight: 'bold', marginBottom: 5 }}>
+                              {item.name}
+                            </Text>
+                            <View style={{ flexDirection: "row", alignItems: "center", marginBottom: 5 }}>
+                              <Text style={{ fontSize: 18 }}>Quantity:</Text>
+                              <TouchableHighlight onPress={() => {
+                                this._subQuantity(item.product_id, item.quantity - 1)
+                              }}>
+                                <View style={{ alignItems: "center", justifyContent: "center", width: 20, height: 20, marginLeft: 5, marginRight: 5, borderColor: "#777", borderWidth: 1, borderRadius: 5 }}>
+                                  <Text>-</Text>
+                                </View>
+                              </TouchableHighlight>
+                              <Text style={{ fontSize: 18 }}>{item.quantity}</Text>
+                              <TouchableHighlight onPress={() => {
+                                this._addQuantity(item.product_id, item.quantity + 1)
+                              }}>
+                                <View style={{ alignItems: "center", justifyContent: "center", width: 20, height: 20, marginLeft: 5, marginRight: 5, borderColor: "#777", borderWidth: 1, borderRadius: 5 }}>
+                                  <Text>+</Text>
+                                </View>
+                              </TouchableHighlight>
+                            </View>
+                            <View style={{ flexDirection: "row", alignItems: "center" }}>
+                              <Text style={{ fontSize: 18 }}>Subtotal: </Text>
+                              <Text style={{ fontSize: 18, fontWeight: "700" }}>RM{item.quantity * item.price}</Text>
+                            </View>
+                          </View>
+                          <View style={{ flexBasis: 20, justifyContent: "center" }}>
+                            <Ionicons name="trash" size={20} color={'red'} onPress={() => {
+                              this._delete(item.product_id);
+                            }} />
+                          </View>
+                        </View>
+                      </TouchableNativeFeedback>
+                    );
+                  }}></FlatList>
+                <View>
+                  <View style={{ padding: 20, paddingBottom: 0, flexDirection: "row", justifyContent: "space-between" }}>
+                    <Text style={{ fontSize: 18 }}>Total: </Text>
+                    <Text style={{ fontSize: 18, fontWeight: "700" }}>RM{this.calculateTotalCost()}</Text>
+                  </View>
+                  <View style={{ padding: 20 }} >
+                    <AppButton title={'Checkout'} onPress={() => {
+                      this.props.navigation.navigate('cartstack', {
+                        screen: "checkout",
+                        params: {
+                          items: this.state.cartItems,
+                          total: this.calculateTotalCost(),
+                        }
+                      })
+                    }}></AppButton>
+                  </View>
+                </View>
+              </>
             :
             <>
-              <FlatList
-                refreshing={this.state.isFetching}
-                onRefresh={this._load}
-                data={this.state.cartItems}
-                renderItem={({ item }) => {
-                  return (
-                    <TouchableNativeFeedback
-                    // onPress={() =>
-                    //   this.props.navigation.navigate('View', {
-                    //     id: item.id,
-                    //     _refresh: this._load,
-                    //   })
-                    // }
-                    >
-                      <View style={{ flexDirection: "row", borderBottomWidth: 1, borderBottomColor: '#ccc', padding: 20 }}>
-                        <View style={{ flex: 3 }}>
-                          <Image
-                            style={{ width: 100, height: 100, backgroundColor: "#333", borderRadius: 10, resizeMode: 'contain' }}
-                            source={{ uri: `${item.img}` }} />
-                        </View>
-                        <View style={{ flex: 7, justifyContent: "center", marginLeft: 20 }}>
-                          <Text style={{ fontSize: 20, fontWeight: 'bold', marginBottom: 5 }}>
-                            {item.name}
-                          </Text>
-                          <View style={{ flexDirection: "row", alignItems: "center", marginBottom: 5 }}>
-                            <Text style={{ fontSize: 18 }}>Quantity:</Text>
-                            <TouchableHighlight onPress={() => {
-                              this._subQuantity(item.product_id, item.quantity - 1)
-                            }}>
-                              <View style={{ alignItems: "center", justifyContent: "center", width: 20, height: 20, marginLeft: 5, marginRight: 5, borderColor: "#777", borderWidth: 1, borderRadius: 5 }}>
-                                <Text>-</Text>
-                              </View>
-                            </TouchableHighlight>
-                            <Text style={{ fontSize: 18 }}>{item.quantity}</Text>
-                            <TouchableHighlight onPress={() => {
-                              this._addQuantity(item.product_id, item.quantity + 1)
-                            }}>
-                              <View style={{ alignItems: "center", justifyContent: "center", width: 20, height: 20, marginLeft: 5, marginRight: 5, borderColor: "#777", borderWidth: 1, borderRadius: 5 }}>
-                                <Text>+</Text>
-                              </View>
-                            </TouchableHighlight>
-                          </View>
-                          <View style={{ flexDirection: "row", alignItems: "center" }}>
-                            <Text style={{ fontSize: 18 }}>Subtotal: </Text>
-                            <Text style={{ fontSize: 18, fontWeight: "700" }}>RM{item.quantity * item.price}</Text>
-                          </View>
-                        </View>
-                        <View style={{ flexBasis: 20, justifyContent: "center" }}>
-                          <Ionicons name="trash" size={20} color={'red'} onPress={() => {
-                            this._delete(item.product_id);
-                          }} />
-                        </View>
-                      </View>
-                    </TouchableNativeFeedback>
-                  );
-                }}></FlatList>
-              <View>
-                <View style={{ padding: 20, paddingBottom: 0, flexDirection: "row", justifyContent: "space-between" }}>
-                  <Text style={{ fontSize: 18 }}>Total: </Text>
-                  <Text style={{ fontSize: 18, fontWeight: "700" }}>RM{this.calculateTotalCost()}</Text>
-                </View>
+              <View style={{ flex: 1, justifyContent: "center" }}>
+                <Text style={{ fontSize: 18, textAlign: "center" }}>You are not Login</Text>
                 <View style={{ padding: 20 }}>
-                  <AppButton title={'Checkout'}></AppButton>
+                  <AppButton title={'Go Login'}
+                    onPress={() => {
+                      console.log(123);
+                      this.props.navigation.navigate('account', {
+                        screen: "profile",
+                      })
+                    }}></AppButton>
                 </View>
               </View>
             </>

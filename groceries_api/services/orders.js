@@ -2,20 +2,28 @@ const db = require('./db');
 const helper = require('../helper');
 const config = require('../config');
 
-async function get(user){
+async function get(user) {
   const rows = await db.query(
     `SELECT * 
     FROM orders
-    LEFT JOIN product_order ON orders.id = product_order.order_id 
-    LEFT JOIN products ON product_order.product_id = products.id 
     WHERE orders.user_id = ${user.id}`
   );
-  const data = helper.emptyOrRows(rows);
+  const orders = helper.emptyOrRows(rows);
 
-  return data;
+  for (let order of orders) {
+    const rows = await db.query(
+      `SELECT * 
+      FROM product_order
+      LEFT JOIN products ON product_order.product_id = products.id 
+      WHERE product_order.order_id = ${order.id}`
+    );
+    order.products = rows;
+  }
+
+  return orders;
 }
 
-async function add(user, input){
+async function add(user, input) {
   const result = await db.query(
     `INSERT INTO orders 
     (user_id, amount, delivery_address, payment_method, created_at, isCancel) 
@@ -26,7 +34,7 @@ async function add(user, input){
   let message = 'Error in create order';
 
   if (result.affectedRows) {
-    for(let p of input.products){
+    for (let p of input.products) {
       let result2 = await db.query(
         `INSERT INTO product_order 
         (product_id, order_id, quantity) 
@@ -37,10 +45,17 @@ async function add(user, input){
     message = 'create order successfully';
   }
 
-  return {message};
+  if (message == "create order successfully") {
+    const result = await db.query(
+      `DELETE FROM cart_items 
+      WHERE user_id=${user.id}`
+    );
+  }
+
+  return { message };
 }
 
-async function edit(user, input){
+async function edit(user, input) {
   const result = await db.query(
     `UPDATE orders 
     SET delivery_address="${input.delivery_address}"
@@ -52,10 +67,10 @@ async function edit(user, input){
     message = 'updated order successfully';
   }
 
-  return {message};
+  return { message };
 }
 
-async function remove(user, input){
+async function remove(user, input) {
   const result = await db.query(
     `UPDATE orders 
     SET isCancel=TRUE
@@ -68,7 +83,7 @@ async function remove(user, input){
     message = 'cancel order successfully';
   }
 
-  return {message};
+  return { message };
 }
 
 module.exports = {

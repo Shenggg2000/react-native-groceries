@@ -46,40 +46,40 @@ export default class HomeScreen extends Component {
   }
 
   _addToCart(product_id, product_name, isLogin) {
-    if(isLogin){
+    if (isLogin) {
       let url = 'http://10.0.2.2:3001/carts/add';
-    fetch(url, {
-      method: 'post',
-      headers: {
-        'Accept': 'application/json',
-        'Authorization': 'Bearer ' + this.state.token,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        product_id,
-        quantity: 1
-      }),
-    })
-      .then(response => {
-        if (!response.ok) {
-          throw Error('Error ' + response.status);
-        }
-        return response.json();
+      fetch(url, {
+        method: 'post',
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': 'Bearer ' + this.state.token,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          product_id,
+          quantity: 1
+        }),
       })
-      .then(() => {
-        // this._load();
-        Alert.alert(
-          product_name,
-          "Add to cart successfully"
-        );
-      })
-      .catch(error => {
-        console.log(error);
-      });
-    }else{
+        .then(response => {
+          if (!response.ok) {
+            throw Error('Error ' + response.status);
+          }
+          return response.json();
+        })
+        .then(() => {
+          // this._load();
+          Alert.alert(
+            product_name,
+            "Add to cart successfully"
+          );
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    } else {
       Alert.alert("Please login to continue shopping.");
     }
-    
+
   }
 
   componentDidMount() {
@@ -89,14 +89,14 @@ export default class HomeScreen extends Component {
 
   render() {
     let isLogin = this.state.isLogin;
-    return ( 
+    return (
       <View style={styles.mainContainer}>
         <View style={{ marginLeft: 20, marginTop: 20, alignItems: "center" }}>
           <Text style={styles.title}>All Products</Text>
         </View>
         <View>
           <FlatList
-            style={{ marginLeft: 10 }}
+            style={{ marginLeft: 0 }}
             key={'flatlist'}
             refreshing={this.state.isFetching}
             onRefresh={this._load}
@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
   title: {
     fontFamily: Fonts.primarySemiBold,
     color: Color.black,
-    fontSize: 16,
-    marginLeft: 10,
+    fontSize: 20,
+    fontWeight: "bold"
   },
 });

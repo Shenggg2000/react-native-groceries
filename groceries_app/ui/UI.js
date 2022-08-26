@@ -161,13 +161,15 @@ class ProductItem extends Component {
       <View style={styles.container}>
         <View style={styles.box1}>
           <View style={styles.innerContainer}>
-            <TouchableOpacity activeOpacity={1} onPress={this.props.onPress}>
-              <Image
-                style={styles.productImage}
-                source={{
-                  uri: `${item.img}`,
-                }}
-              />
+            <TouchableOpacity style={{width: 200}} activeOpacity={1} onPress={this.props.onPress}>
+              <View style={{flexBasis: 150}}>
+                <Image
+                  style={styles.productImage}
+                  source={{
+                    uri: `${item.img}`,
+                  }}
+                />
+              </View>
               <Text style={styles.title}>{item.name}</Text>
               <Text style={styles.option}>
                 {'RM' + item.price}
@@ -190,8 +192,8 @@ class ProductItem extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    height: 220,
-    width: 350,
+    height: 300,
+    flex: 1,
     backgroundColor: Color.white,
     shadowColor: '#000',
     shadowOffset: {
@@ -244,9 +246,9 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   productImage: {
-    height: 100,
-    width: 100,
-    resizeMode: 'cover'
+    flex: 1,
+    resizeMode: 'cover',
+    borderRadius: 10,
   },
   addToCart: {
     backgroundColor: Color.colorPrimary,

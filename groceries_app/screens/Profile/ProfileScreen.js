@@ -110,12 +110,14 @@ export default class ProfileScreen extends Component {
             </View>
           </>
           :
-          <View style={{ padding: 20 }}>
-            <Text>
-              You are not login!
-            </Text>
-            <AppButton title={"Login"} onPress={() => { this.props.navigation.navigate('account', { screen: 'login', params: { refresh: this._refresh } }) }}></AppButton>
-            <AppButton title={"SignUp"} onPress={() => { this.props.navigation.navigate('account', { screen: 'signup', params: { refresh: this._refresh } }) }}></AppButton>
+          <View style={{ flex: 1, justifyContent: "center" }}>
+            <Text style={{ fontSize: 18, textAlign: "center" }}>You Are No Login Yet.</Text>
+            <View style={{ padding: 20, paddingBottom: 0 }}>
+              <AppButton title={"Login"} onPress={() => { this.props.navigation.navigate('account', { screen: 'login', params: { refresh: this._refresh } }) }}></AppButton>
+            </View>
+            <View style={{ padding: 20, paddingBottom: 0 }}>
+              <AppButton title={"SignUp"} onPress={() => { this.props.navigation.navigate('account', { screen: 'signup', params: { refresh: this._refresh } }) }}></AppButton>
+            </View>
           </View>
         }
 
